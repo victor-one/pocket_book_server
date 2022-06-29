@@ -28,4 +28,8 @@ module.exports = app => {
   router.post('/api/bill/delete', _jwt, controller.bill.delete);
   // 获取数据
   router.get('/api/bill/data', _jwt, controller.bill.data);
+  // 获取消费类型列表
+  router.get('/api/type/list', _jwt, controller.type.list);
+  // 修改密码
+  router.post('/api/user/modify_pass', _jwt, controller.user.modifyPass);
 };

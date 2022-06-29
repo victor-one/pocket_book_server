@@ -62,20 +62,20 @@ class BillController extends Controller {
       const list = await ctx.service.bill.list(user_id);
       // 过滤出月份和类型所对应的账单列表
       const _list = list.filter(item => {
-        if (type_id !== 'all') {
-          return moment(Number(item.date)).format('YYYY-MM') === date && type_id === item.type_id;
+        if (type_id != 'all') {
+          return moment(Number(item.date)).format('YYYY-MM') == date && type_id == item.type_id;
         }
-        return moment(Number(item.date)).format('YYYY-MM') === date;
+        return moment(Number(item.date)).format('YYYY-MM') == date;
       });
       // 格式化数据，将其变成之前设置好的对象格式
       const listMap = _list.reduce((curr, item) => {
         const date = moment(Number(item.date)).format('YYYY-MM-DD');
-        if (curr && curr.length && curr.findIndex(item => item.date === date) > -1) {
-          const index = curr.findIndex(item => item.date === date);
+        if (curr && curr.length && curr.findIndex(item => item.date == date) > -1) {
+          const index = curr.findIndex(item => item.date == date);
           curr[index].bills.push(item);
         }
         // 如果在累加的数组中找不到当前项日期，则新建一项
-        if (curr && curr.length && curr.findIndex(item => item.date === date) === -1) {
+        if (curr && curr.length && curr.findIndex(item => item.date == date) == -1) {
           curr.push({
             date,
             bills: [ item ],
@@ -99,7 +99,7 @@ class BillController extends Controller {
       const __list = list.filter(item => moment(Number(item.date)).format('YYYY-MM') === date);
       // 累加计算支出
       const totalExpense = __list.reduce((curr, item) => {
-        if (item.pay_type === 1) {
+        if (item.pay_type == 1) {
           curr += Number(item.amount);
           return curr;
         }
@@ -107,7 +107,7 @@ class BillController extends Controller {
       }, 0);
       // 累加计算收入
       const totalIncome = __list.reduce((curr, item) => {
-        if (item.pay_type === 2) {
+        if (item.pay_type == 2) {
           curr += Number(item.amount);
           return curr;
         }
@@ -275,7 +275,7 @@ class BillController extends Controller {
 
       // 总支出
       const total_expense = _data.reduce((arr, cur) => {
-        if (cur.pay_type === 1) {
+        if (cur.pay_type == 1) {
           arr += Number(cur.amount);
         }
         return arr;
@@ -283,7 +283,7 @@ class BillController extends Controller {
 
       // 总收入
       const total_income = _data.reduce((arr, cur) => {
-        if (cur.pay_type === 2) {
+        if (cur.pay_type == 2) {
           arr += Number(cur.amount);
         }
         return arr;
@@ -292,7 +292,7 @@ class BillController extends Controller {
       // 获取收支构成
       let total_data = _data.reduce((arr, cur) => {
         const index = arr.findIndex(item => item.type_id === cur.type_id);
-        if (index === -1) {
+        if (index == -1) {
           arr.push({
             type_id: cur.type_id,
             type_name: cur.type_name,
